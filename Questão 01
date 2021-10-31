@@ -1,0 +1,48 @@
+Questão 01
+
+Execute os comandos para criar os 4 bancos de dados listados com containers, e use
+como se tivesse instalado eles localmente na sua máquina (Não esquece de garantir
+que não vai perder os dados caso o container seja excluido).
+
+MongoDB
+MariaDB
+PostgreSQL
+Redis
+
+
+================================
+
+MongoDB
+
+- Buscar no dockerhub a imagem
+    https://hub.docker.com/_/mongo
+
+Environment
+MONGO_INITDB_ROOT_USERNAME
+MONGO_INITDB_ROOT_PASSWORD
+
+
+
+docker volume create mongodb_q1
+
+docker container run --name mongodb_q1 -v mongovol_q1:/data/db -p 27017:27017 -d -e MONGO_INITDB_ROOT_USERNAME=mongouser -e  MONGO_INITDB_ROOT_PASSWORD=mongopwd  mongo:4.4.3
+
+
+
+
+==================================
+
+MariaDB
+
+https://hub.docker.com/_/mariadb
+
+
+docker volume create phpmyadminvol_q1
+docker network create maria_phpmyadmin
+
+docker run --name phpmyadmin -v phpmyadminvol_q1:/data/db --network maria_phpmyadmin -p 8080:80 -e PMA_ARBITRARY=1 -d phpmyadmin
+
+docker run --name mariadb_q1 -v mariadb:/var/lib/mysql --network maria_phpmyadmin -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mariapwd -d mariadb
+
+
+==================================
