@@ -46,3 +46,48 @@ docker run --name mariadb_q1 -v mariadb:/var/lib/mysql --network maria_phpmyadmi
 
 
 ==================================
+
+PostgreSQL
+
+https://hub.docker.com/_/postgres
+
+docker volume create pgadminvol_q1
+docker network create postgre_pgadmin_net
+
+
+Usuario: postgres
+
+docker run --name postgres -e POSTGRES_PASSWORD=postgrepwd -v postgrevol_q1:/var/lib/postgresql/data -p 5432:5432  --network postgre_pgadmin_net -d postgres
+
+
+https://hub.docker.com/r/dpage/pgadmin4/
+
+docker run -p 80:80 \
+    -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' \
+    --network postgre_pgadmin_net \
+    -v pgadminvol_q1:/var/lib/pgadmin \
+    -d dpage/pgadmin4
+
+
+
+    ================================
+
+    Redis
+
+    https://hub.docker.com/_/redis
+
+    docker volume create rediscommandervol_q1
+    docker network create redis_rediscommander_net
+
+    ### Sem senha  #### Sem segurança
+    docker run --name some-redis --network redis_rediscommander_net -p 6379:6379 -d redis 
+
+
+    https://hub.docker.com/r/rediscommander/redis-commander
+
+
+    docker run --rm --name redis-commander -d \
+  -p 8081:8081  -v rediscommandervol_q1\
+  --network redis_rediscommander_net \
+  rediscommander/redis-commander:latest
